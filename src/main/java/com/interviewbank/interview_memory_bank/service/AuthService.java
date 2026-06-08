@@ -1,25 +1,53 @@
 package com.interviewbank.interview_memory_bank.service;
 
+import com.interviewbank.interview_memory_bank.dto.LoginRequest;
 import com.interviewbank.interview_memory_bank.dto.RegisterRequest;
 import com.interviewbank.interview_memory_bank.entity.User;
 import com.interviewbank.interview_memory_bank.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
 
-    private final UserRepository userRepository;
+    public String login(LoginRequest request) {
 
-    public AuthService(UserRepository userRepository) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElse(null);
+
+        if (user == null) {
+            return "User not found";
+        }
+
+        if (passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword()
+        )) {
+            return "Login Successful";
+        }
+
+        return "Invalid Password";
+    }
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public String register(RegisterRequest request) {
 
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            return "Email already exists";
+        }
+
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .build();
 
         userRepository.save(user);

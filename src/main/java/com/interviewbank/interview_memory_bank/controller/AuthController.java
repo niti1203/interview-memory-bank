@@ -1,5 +1,6 @@
 package com.interviewbank.interview_memory_bank.controller;
 
+import com.interviewbank.interview_memory_bank.dto.LoginRequest;
 import com.interviewbank.interview_memory_bank.dto.RegisterRequest;
 import com.interviewbank.interview_memory_bank.service.AuthService;
 import org.springframework.web.bind.annotation.*;
@@ -17,5 +18,10 @@ public class AuthController {
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request) {
         return authService.register(request);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest request) {
+        return authService.login(request);
     }
 }
