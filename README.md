@@ -1,6 +1,16 @@
 # Interview Memory Bank
 
-A Spring Boot backend application where users can register, log in, and share interview experiences to help other job seekers prepare for interviews.
+A Spring Boot backend application where users can share and explore real interview experiences from different companies.
+
+## Features
+
+- User Registration
+- User Login
+- Password Encryption using BCrypt
+- Add Interview Experience
+- View Interview Experiences
+- REST APIs with Spring Boot
+- MySQL Database Integration
 
 ## Tech Stack
 
@@ -12,27 +22,37 @@ A Spring Boot backend application where users can register, log in, and share in
 - Maven
 - Postman
 
-## Features Completed
+## APIs
+
+### Authentication
+
+POST /api/auth/register
+
+POST /api/auth/login
+
+### Interview Experiences
+
+POST /api/experiences
+
+GET /api/experiences
+
+GET /api/experiences/{id}
+
+## Current Progress
 
 ### Day 1
-- Project setup
-- MySQL integration
-- User registration API
-- JPA entities and repositories
-- Security configuration
-- Postman testing
+- Project Setup
+- MySQL Configuration
+- User Registration API
 
-## API Endpoints
+### Day 2
+- Login API
+- Password Encryption
 
-### Register User
+### Day 3
+- Interview Experience APIs
+- Fetch Experience APIs
 
-POST `/api/auth/register`
+## Author
 
-Request:
-
-```json
-{
-  "name": "Nitika",
-  "email": "nitika@gmail.com",
-  "password": "123456"
-}
+Nitika Garg
