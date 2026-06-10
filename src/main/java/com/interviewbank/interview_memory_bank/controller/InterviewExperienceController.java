@@ -36,4 +36,29 @@ public class InterviewExperienceController {
 
         return service.getExperienceById(id);
     }
+    @GetMapping("/company/{company}")
+    public List<InterviewExperience> getByCompany(
+            @PathVariable String company) {
+
+        return service.getByCompany(company);
+    }
+    @GetMapping("/role/{role}")
+    public List<InterviewExperience> getByRole(
+            @PathVariable String role) {
+
+        return service.getByRole(role);
+    }
+    @DeleteMapping("/{id}")
+    public String deleteExperience(
+            @PathVariable Long id) {
+
+        return service.deleteExperience(id);
+    }
+    @PutMapping("/{id}")
+    public String updateExperience(
+            @PathVariable Long id,
+            @RequestBody InterviewExperienceRequest request) {
+
+        return service.updateExperience(id, request);
+    }
 }

@@ -42,4 +42,40 @@ public class InterviewExperienceService {
     public InterviewExperience getExperienceById(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    public List<InterviewExperience> getByCompany(String companyName) {
+        return repository.findByCompanyName(companyName);
+    }
+
+    public List<InterviewExperience> getByRole(String role) {
+        return repository.findByRole(role);
+    }
+
+    public String deleteExperience(Long id) {
+
+        repository.deleteById(id);
+
+        return "Experience Deleted Successfully";
+    }
+
+    public String updateExperience(Long id,
+                                   InterviewExperienceRequest request) {
+
+        InterviewExperience experience =
+                repository.findById(id)
+                        .orElseThrow();
+
+        experience.setCompanyName(request.getCompanyName());
+        experience.setRole(request.getRole());
+        experience.setDifficulty(request.getDifficulty());
+        experience.setResult(request.getResult());
+        experience.setQuestions(request.getQuestions());
+        experience.setOverallExperience(
+                request.getOverallExperience());
+
+        repository.save(experience);
+
+        return "Experience Updated Successfully";
+    }
 }
+
