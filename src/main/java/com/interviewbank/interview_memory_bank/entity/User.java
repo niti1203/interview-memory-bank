@@ -1,5 +1,5 @@
 package com.interviewbank.interview_memory_bank.entity;
-
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +11,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class User {
+
+    @OneToMany(mappedBy = "user")
+    private List<InterviewExperience> experiences;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

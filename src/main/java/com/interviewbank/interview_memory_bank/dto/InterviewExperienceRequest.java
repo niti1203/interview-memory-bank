@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class InterviewExperienceRequest {
 
+    private Long userId;
     private String companyName;
     private String role;
     private String difficulty;
