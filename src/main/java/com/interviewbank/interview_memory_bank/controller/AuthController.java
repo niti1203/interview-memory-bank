@@ -1,5 +1,6 @@
 package com.interviewbank.interview_memory_bank.controller;
 
+import com.interviewbank.interview_memory_bank.dto.AuthResponse;
 import com.interviewbank.interview_memory_bank.dto.LoginRequest;
 import com.interviewbank.interview_memory_bank.dto.RegisterRequest;
 import com.interviewbank.interview_memory_bank.service.AuthService;
@@ -21,7 +22,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
+    public AuthResponse login(@RequestBody LoginRequest request) {
         return authService.login(request);
+
+
     }
 }

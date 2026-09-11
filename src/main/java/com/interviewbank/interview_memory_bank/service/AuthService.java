@@ -1,5 +1,6 @@
 package com.interviewbank.interview_memory_bank.service;
 
+import com.interviewbank.interview_memory_bank.dto.AuthResponse;
 import com.interviewbank.interview_memory_bank.dto.LoginRequest;
 import com.interviewbank.interview_memory_bank.dto.RegisterRequest;
 import com.interviewbank.interview_memory_bank.entity.User;
@@ -10,33 +11,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    public String login(LoginRequest request) {
-
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElse(null);
-
-        if (user == null) {
-            return "User not found";
-        }
-
-        if (passwordEncoder.matches(
-                request.getPassword(),
-                user.getPassword()
-        )) {
-            return "Login Successful";
-        }
-
-        return "Invalid Password";
-    }
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
+    public AuthService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
+
 
     public String register(RegisterRequest request) {
 
@@ -53,5 +41,27 @@ public class AuthService {
         userRepository.save(user);
 
         return "User Registered Successfully";
+    }
+
+
+    public AuthResponse login(LoginRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElse(null);
+
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        if (!passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword()
+        )) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        String token = jwtService.generateToken(user.getEmail());
+
+        return new AuthResponse(token);
     }
 }
